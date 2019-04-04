@@ -1,0 +1,144 @@
+(*
+1. Matriz numérica. Diseñe un algoritmo que permita ingresar una matriz de números
+enteros, y en base a los valores cargados muestre:
+
+a) Cantidad de grupos de más de 7 niños. ¿Qué porcentaje representa del total de grupos? (IMPLEMENTADO)
+b) Cantidad de alumnos por escuela. ¿Qué porcentaje representa del total?
+
+c) ¿Qué categorías y de qué escuela no llegan a armar un grupo de 7 para jugar un partido?
+d) Promedio de alumnos por categoría.
+e) El grupo más grande, indicando además la categoría y la escuela.
+f) El grupo más pequeño, indicando además la categoría y la escuela.
+
+Observación: puede hacer uso de los módulos definidos en el TP1.
+*)
+
+ALGORITMO principal() RETORNA Ø
+	(* Cerebro *)
+	TEXTO[] escuelas ← {"Los Patos", "Marabunta", "RRC", "NRC", "ARC"}
+	TEXTO[] categorias ← {"M4", "M6", "M7", "M8", "M10"}
+	ENTERO[][] cantidadChicos ← leerCantidadChicos(longitud(cantEscuelas), longitud(cantCategorias))
+	LOGICO salir ← FALSO
+	ENTERO opcion ← -1
+
+	(* Menú *)
+	MIENTRAS (NOT salir) HACER
+		mostrarOpciones()
+		LEER(opcion)
+		SEGUN (opcion)
+			0: salir ← VERDADERO
+			1: mostrarOpcion1(cantidadChicos)
+			2: mostrarOpcion2()
+			3: opcion3()
+			4: opcion4()
+			5: opcion5()
+			6: opcion6()
+			∀o: ESCRIBIR("Opción inválida")
+		FIN SEGUN
+	FIN MIENTRAS
+FIN ALGORITMO principal
+
+MODULO cantMayorIgualA(ENTERO num, ENTERO[][] numeros) RETORNA Ø
+	ENTERO i, j, contador
+	
+	PARA i ← 0 HASTA longitud(numeros[0])-1 CON PASO 1 HACER
+		PARA j ← 0 HASTA longitud(numeros)-1 CON PASO 1 HACER
+			cantActual ← cantidadChicos[i][j]
+			SI(cantActual >= num) ENTONCES
+				contador ← contador + 1
+			FIN SI
+		FIN PARA
+	FIN PARA
+	
+	RETORNAR contador
+FIN MODULO
+
+MODULO leerCantidadChicos(ENTERO cantFilas, ENTERO cantColumnas) RETORNA ENTERO[][]
+	(* Este devuelve una matriz cargada con la cantidad de chicos de cada escuela/categoría *)
+	ENTERO[][] cantChicos ← ENTERO[cantFilas][cantColumnas]
+	ENTERO i, j, num
+	PARA i ← 0 HASTA cantFilas-1  HACER
+		PARA j ← 0 HASTA cantColumnas-1 HACER
+			ESCRIBIR("Ingrese la cantidad de integrantes:")
+			LEER(num)
+			cantChicos[i][j] ← num
+		FIN PARA
+	FIN PARA
+	RETORNAR cantChicos
+FIN MODULO leerCantidadChicos
+
+MODULO cantidadAlumnosPorEscuela(ENTERO[][] cantidadChicos) RETORNA ENTERO[]
+	(* b) Cantidad de alumnos por escuela. ¿Qué porcentaje representa del total? *)
+	ENTERO i, j, cantAlumnos
+	ENTERO[] cantAlumPorEsc ← ENTERO[longitud(escuelas[0])]
+	
+	PARA i ← 0 HASTA longitud(cantidadChicos[0])-1 CON PASO 1 HACER
+		cantAlumnos ← 0
+		PARA j ← 0 HASTA longitud(cantidadChicos)-1 CON PASO 1 HACER
+			cantAlumnos ← cantAlumnos + cantidadChicos[i][j]
+		FIN PARA
+		cantAlumPorEsc[i] ← cantAlumnos (* Cantidad de alumnos de una escuela *)
+	FIN PARA
+	RETORNAR cantAlumPorEsc
+FIN MODULO
+
+MODULO mostrarOpcion1(ENTERO[][] cantidadChicos) RETORNA Ø
+	(* a) Cantidad de grupos de más de 7 niños. ¿Qué porcentaje representa del total de grupos? *)
+	ENTERO totalGrupos ← longitud(cantidadChicos[0]) * longitud(cantidadChicos)
+	ENTERO cantGruposCompletos ← cantMayorIgualA(7, cantidadChicos)
+	ENTERO porcentaje ← cantGruposCompletos/totalGrupos (* Promedio de grupos *)
+	
+	ESCRIBIR("La cantidad de grupos que tienen más 7 niños son: ", cantGruposCompletos) (* Con salto *)
+	ESCRIBIR("Y representa el porcentaje: ", porcentaje, "%") (* Con salto *)
+FIN MODULO mostrarOpcion1
+
+MODULO mostrarOpcion2(ENTERO[][] cantidadChicos, ENTERO[] escuelas) RETORNA Ø
+	(* b) Cantidad de alumnos por escuela. ¿Qué porcentaje representa del total? *)
+	(*  *)
+	ENTERO[] cantAlumnosPorEscuela ← cantidadAlumnosPorEscuela(cantidadChicos)
+	ENTERO totalAlumnos ← 0
+	ENTERO cantAlumnosActual, porcentaje
+	
+	ESCRIBIR("La cantidad de alumnos por escuela es: ")
+	PARA i ← 0 HASTA totalEscuelas-1 CON PASO 1 HACER
+		cantAlumnosActual ← cantAlumnosPorEscuela[i]
+		ESCRIBIR("La escuela ", escuelas[i], " tiene ", cantAlumnosActual, " alumnos.")
+		totalAlumnos ← totalAlumnos + cantAlumnosPorEscuela[i]
+	FIN PARA
+	
+	porcentaje ← (cantAlumnosPorEscuela/totalEscuelas)*100
+	ESCRIBIR("Y representa el porcentaje: ", porcentaje, "%")
+FIN MODULO
+
+MODULO mostrarOpcion3() RETORNA
+	(* c) ¿Qué categorías y de qué escuela no llegan a armar un grupo de 7 para jugar un partido? *)
+	(* Almacenar las posiciones de los grupos que no llegan a armar un equipo para jugar un partido *)
+FIN MODULO
+
+MODULO mostrarOpciones() RETORNA Ø
+	(* Muestra las las opciones disponibles *)
+	ESCRIBIR("[0] Salir (IMPLEMENTADO)")
+	ESCRIBIR("[1] Cantidad y porcentaje de grupos que tienen más de 7 niños del total. (IMPLEMENTADO)")
+	ESCRIBIR("[2] Cantidad y porcentaje de alumnos por escuela del total.")
+	ESCRIBIR("[3] ¿Qué categorías y de qué escuela no llegan a armar un grupo de 7 para jugar un partido?.")
+	ESCRIBIR("[4] Promedio de alumnos por categoría.")
+	ESCRIBIR("[5] El grupo más grande, indicando además la categoría y la escuela.")
+	ESCRIBIR("[6] El grupo más pequeño, indicando además la categoría y la escuela.")
+FIN MODULO mostrarOpciones
+
+(* cantAnterior, cantActual *)
+(* Devuelve una arreglo cargado de textos *)
+(*
+MODULO leerTextos(ENTERO cantTextos) RETORNA TEXTO[]
+	TEXTO[] textos ← TEXTO[cantTextos]
+	TEXTO texto;
+	ENTERO i
+	
+	PARA i ← 0 HASTA cantTextos-1 CON PASO 1 HACER
+		LEER(texto)
+		textos[i] ← texto
+	FIN PARA
+	
+	RETORNAR textos
+FIN MODULO leerTextos
+*)
