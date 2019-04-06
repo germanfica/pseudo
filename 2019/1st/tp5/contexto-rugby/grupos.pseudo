@@ -2,7 +2,7 @@ ALGORITMO principal() RETORNA Ø
 	(* Cerebro *)
 	TEXTO[] escuelas ← {"Los Patos", "Marabunta", "RRC", "NRC", "ARC"}
 	TEXTO[] categorias ← {"M4", "M6", "M7", "M8", "M10"}
-	ENTERO[][] cantidadChicos ← leerCantidadChicos(longitud(cantEscuelas), longitud(cantCategorias))
+	CARACTER[][] matrizGrupo ← leerMatrizCaracter(longitud(escuelas), longitud(categorias))
 	LOGICO salir ← FALSO
 	ENTERO opcion ← -1
 
@@ -12,67 +12,37 @@ ALGORITMO principal() RETORNA Ø
 		LEER(opcion)
 		SEGUN (opcion)
 			0: salir ← VERDADERO
-			1: mostrarOpcion1()
+			1: mostrarOpcion1(CARACTER[][] matrizGrupo, TEXTO[] escuelas)
 			2: mostrarOpcion2()
 			3: mostrarOpcion3()
-			4: mostrarOpcion4(cantidadChicos, categorias)
-			5: mostrarOpcion5(cantidadChicos, escuelas, categorias)
-			6: mostrarOpcion6(cantidadChicos, escuelas, categorias)
+			4: mostrarOpcion4()
+			5: mostrarOpcion5()
 			∀o: ESCRIBIR("Opción inválida")
 		FIN SEGUN
 	FIN MIENTRAS
 FIN ALGORITMO principal
 
-MODULO cantMayorIgualA(ENTERO num, ENTERO[][] numeros) RETORNA Ø
-	ENTERO i, j, contador
-	
-	PARA i ← 0 HASTA longitud(numeros[0])-1 CON PASO 1 HACER
-		PARA j ← 0 HASTA longitud(numeros)-1 CON PASO 1 HACER
-			cantActual ← cantidadChicos[i][j]
-			SI(cantActual >= num) ENTONCES
-				contador ← contador + 1
-			FIN SI
-		FIN PARA
-	FIN PARA
-	
-	RETORNAR contador
-FIN MODULO
-
 MODULO mostrarOpciones() RETORNA Ø
 	(* Muestra las las opciones disponibles *)
 	ESCRIBIR("[0] Salir (IMPLEMENTADO)")
-	ESCRIBIR("[1] Cantidad y porcentaje de grupos que tienen más de 7 niños del total. (IMPLEMENTADO)")
-	ESCRIBIR("[2] Cantidad y porcentaje de alumnos por escuela del total. (IMPLEMENTADO)")
-	ESCRIBIR("[3] ¿Qué categorías y de qué escuela no llegan a armar un grupo de 7 para jugar un partido?. (IMPLEMENTADO)")
-	ESCRIBIR("[4] Promedio de alumnos por categoría. (IMPLEMENTADO)")
-	ESCRIBIR("[5] El grupo más grande, indicando además la categoría y la escuela. (IMPLEMENTADO)")
-	ESCRIBIR("[6] El grupo más pequeño, indicando además la categoría y la escuela. (IMPLEMENTADO)")
+	ESCRIBIR("[1] Ingresar una escuela y mostrar las letras asignadas a los grupos de esa escuela.")
+	ESCRIBIR("[2] Dada una categoría, y una letra, indicar si corresponde a alguna escuela. ¿Puede averiguar",
+	"a qué escuela corresponde con una operación/instrucción (esto es sin recorrer el arreglo)?")
+	ESCRIBIR("[3] ")
+	ESCRIBIR("[4] ")
+	ESCRIBIR("[5] ")
 FIN MODULO mostrarOpciones
 
-MODULO mostrarCatEscGrupInc(ENTERO[][] cantChicos, TEXTO[] escuelas, TEXTO[] categorias) RETORNA Ø
-	(* Opcion 3 *)
-	ENTERO i,j
-	ESCRIBIR("Los siguientes grupos son los que no llegan a armar un equipo de 7:")
-	PARA i ← 0 HASTA longitud(cantChicos)-1 CON PASO 1 HACER
-		PARA j ← 0 HASTA longitud(cantChicos[0])-1 CON PASO 1 HACER
-			SI(cantChicos[i][j]<7) ENTONCES
-				ESCRIBIR("Escuela: ", escuelas[i])
-				ESCRIBIR("Categoria: ", categorias[j])
-			FIN SI
-		FIN PARA
-	FIN PARA
-FIN MODULO mostrarCatEscGrupInc
-
-MODULO leerMatrizCaracter(ENTERO cantFilas, ENTERO cantColumnas) RETORNA ENTERO[][]
-	(* Este devuelve una matriz cargada con la cantidad de chicos de cada escuela/categoría *)
-	ENTERO[][] cantChicos ← ENTERO[cantFilas][cantColumnas]
-	ENTERO i, j, num
+MODULO leerMatrizCaracter(ENTERO cantFilas, ENTERO cantColumnas) RETORNA CARACTER[][]
+	(* Este devuelve una matriz cargada de caracteres *)
+	CARACTER[][] matrizCaracter ← CARACTER[cantFilas][cantColumnas]
+	CARACTER ch
+	ENTERO i, j
 	PARA i ← 0 HASTA cantFilas-1  HACER
 		PARA j ← 0 HASTA cantColumnas-1 HACER
-			ESCRIBIR("Ingrese la cantidad de integrantes:")
-			LEER(num)
-			cantChicos[i][j] ← num
+			LEER(ch)
+			matrizCaracter[i][j] ← ch
 		FIN PARA
 	FIN PARA
-	RETORNAR cantChicos
-FIN MODULO leerCantidadChicos
+	RETORNAR matrizCaracter
+FIN MODULO leerMatrizCaracter

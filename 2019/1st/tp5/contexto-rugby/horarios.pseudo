@@ -1,0 +1,37 @@
+ALGORITMO principal() RETORNA Ø
+	(* Cerebro *)
+	ENTERO[] horas ← {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}
+	TEXTO[] dias ← {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"}
+	TEXTO[][] matrizHorario ← leerMatrizTexto(longitud(horas), longitud(dias)) (* Guarda las actividades de una persona *)
+	LOGICO salir ← FALSO
+	ENTERO opcion ← -1
+
+	(* Menú *)
+	MIENTRAS (NOT salir) HACER
+		mostrarOpciones()
+		LEER(opcion)
+		SEGUN (opcion)
+			0: salir ← VERDADERO
+			1: mostrarOpcion1(TEXTO[] escuelas)
+			2: mostrarOpcion2()
+			3: mostrarOpcion3()
+			4: mostrarOpcion4()
+			5: mostrarOpcion5()
+			∀o: ESCRIBIR("Opción inválida")
+		FIN SEGUN
+	FIN MIENTRAS
+FIN ALGORITMO principal
+
+MODULO leerMatrizTexto(ENTERO cantFilas, ENTERO cantColumnas) RETORNA TEXTO[][]
+	(* Este devuelve una matriz cargada de caracteres *)
+	TEXTO[][] matrizTexto ← TEXTO[cantFilas][cantColumnas]
+	TEXTO tex
+	ENTERO i, j
+	PARA i ← 0 HASTA cantFilas-1  HACER
+		PARA j ← 0 HASTA cantColumnas-1 HACER
+			LEER(tex)
+			matrizTexto[i][j] ← tex
+		FIN PARA
+	FIN PARA
+	RETORNAR matrizTexto
+FIN MODULO leerMatrizTexto
