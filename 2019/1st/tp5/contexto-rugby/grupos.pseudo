@@ -22,10 +22,42 @@ ALGORITMO principal() RETORNA Ø
 	FIN MIENTRAS
 FIN ALGORITMO principal
 
-MODULO correspondeEscuela(TEXTO categoria, CARACTER letra) RETORNA LOGICO
-	LOGICO aux
+MODULO posicionCategoria(TEXTO[] categorias, TEXTO categoria) RETORNAR ENTERO
+	(* Retorna la posición del arreglo de categorias si existe la categoria solicitada *)
+	ENTERO i ← 0
+	ENTERO posicion ← -1
+	LOGICO salir ← FALSO
 	
+	MIENTRAS( NOT salir AND i <= longitud(categorias)-1 ) HACER
+		SI(categoria=categorias[i]) ENTONCES
+			posicion ← i
+			salir ← VERDADERO
+		FIN SI
+		i ← i + 1
+	FIN MIENTRAS
+	(* si no existe retorna -1 *)
+	RETORNA posicion
+FIN MODULO posicionCategoria
+
+MODULO correspondeEscuela(CARACTER[][] matrizGrupo, TEXTO[] categorias, TEXTO categoria, CARACTER letra) RETORNA LOGICO
+	ENTERO i ← 0
+	ENTERO posCategoria ← posicionCategoria(categorias, categoria)
+	LOGICO aux ← FALSO
+	LOGICO salir ← FALSO
 	
+	SI(posCategoria = -1) ENTONCES
+		(* No existe la categoría *)
+		aux ← FALSO
+	SINO
+		(* Buscar si existe la letra solicitada en la categoría solicitada en la matrizGrupo *)
+		MIENTRAS( NOT salir AND i <= longitud(matrizGrupo)-1 ) HACER
+			SI( letra = matrizGrupo[i][posCategoria] ) ENTONCES
+				aux ← VERDADERO
+				salir ← VERDADERO
+			FIN SI
+			i ← i + 1
+		FIN MIENTRAS
+	FIN SI
 	
 	RETORNA aux
 FIN MODULO
