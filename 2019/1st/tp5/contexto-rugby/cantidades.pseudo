@@ -1,18 +1,3 @@
-(*
-1. Matriz numérica. Diseñe un algoritmo que permita ingresar una matriz de números
-enteros, y en base a los valores cargados muestre:
-
-a) Cantidad de grupos de más de 7 niños. ¿Qué porcentaje representa del total de grupos? (IMPLEMENTADO)
-b) Cantidad de alumnos por escuela. ¿Qué porcentaje representa del total?
-
-c) ¿Qué categorías y de qué escuela no llegan a armar un grupo de 7 para jugar un partido?
-d) Promedio de alumnos por categoría.
-e) El grupo más grande, indicando además la categoría y la escuela.
-f) El grupo más pequeño, indicando además la categoría y la escuela.
-
-Observación: puede hacer uso de los módulos definidos en el TP1.
-*)
-
 ALGORITMO principal() RETORNA Ø
 	(* Cerebro *)
 	TEXTO[] escuelas ← {"Los Patos", "Marabunta", "RRC", "NRC", "ARC"}
@@ -119,11 +104,11 @@ MODULO mostrarOpciones() RETORNA Ø
 	(* Muestra las las opciones disponibles *)
 	ESCRIBIR("[0] Salir (IMPLEMENTADO)")
 	ESCRIBIR("[1] Cantidad y porcentaje de grupos que tienen más de 7 niños del total. (IMPLEMENTADO)")
-	ESCRIBIR("[2] Cantidad y porcentaje de alumnos por escuela del total.")
-	ESCRIBIR("[3] ¿Qué categorías y de qué escuela no llegan a armar un grupo de 7 para jugar un partido?.")
-	ESCRIBIR("[4] Promedio de alumnos por categoría.")
-	ESCRIBIR("[5] El grupo más grande, indicando además la categoría y la escuela.")
-	ESCRIBIR("[6] El grupo más pequeño, indicando además la categoría y la escuela.")
+	ESCRIBIR("[2] Cantidad y porcentaje de alumnos por escuela del total. (IMPLEMENTADO)")
+	ESCRIBIR("[3] ¿Qué categorías y de qué escuela no llegan a armar un grupo de 7 para jugar un partido?. (IMPLEMENTADO)")
+	ESCRIBIR("[4] Promedio de alumnos por categoría. (IMPLEMENTADO)")
+	ESCRIBIR("[5] El grupo más grande, indicando además la categoría y la escuela. (IMPLEMENTADO)")
+	ESCRIBIR("[6] El grupo más pequeño, indicando además la categoría y la escuela. (IMPLEMENTADO)")
 FIN MODULO mostrarOpciones
 
 MODULO mostrarCatEscGrupInc(ENTERO[][] cantChicos, TEXTO[] escuelas, TEXTO[] categorias) RETORNA Ø
@@ -176,7 +161,7 @@ MODULO mostrarGrupMasGrandConCatEsc(ENTERO[][] cantChicos, TEXTO[] escuelas, TEX
 FIN MODULO mostrarGrupMasGrandConCatEsc
 
 MODULO mostrarGrupMasPequeConCatEsc(ENTERO[][] cantChicos, TEXTO[] escuelas) RETORNA Ø
-	(* Opcion 5 *)
+	(* Opcion 6 *)
 	ENTERO i,j
 	ENTERO[][] grupoMasPeque ← ENTERO[3]
 	grupoMasPeque[0] ← cantChicos[0][0] (* almacena la cantidad del grupo más grande *)
