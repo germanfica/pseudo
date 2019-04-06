@@ -22,15 +22,24 @@ ALGORITMO principal() RETORNA Ø
 	FIN MIENTRAS
 FIN ALGORITMO principal
 
+MODULO correspondeEscuela(TEXTO categoria, CARACTER letra) RETORNA LOGICO
+	LOGICO aux
+	
+	
+	
+	RETORNA aux
+FIN MODULO
+
 MODULO mostrarOpciones() RETORNA Ø
 	(* Muestra las las opciones disponibles *)
 	ESCRIBIR("[0] Salir (IMPLEMENTADO)")
 	ESCRIBIR("[1] Ingresar una escuela y mostrar las letras asignadas a los grupos de esa escuela.")
 	ESCRIBIR("[2] Dada una categoría, y una letra, indicar si corresponde a alguna escuela. ¿Puede averiguar",
 	"a qué escuela corresponde con una operación/instrucción (esto es sin recorrer el arreglo)?")
-	ESCRIBIR("[3] ")
-	ESCRIBIR("[4] ")
-	ESCRIBIR("[5] ")
+	ESCRIBIR("[3] Generar una cadena con todos los grupos, ordenado por escuela.")
+	ESCRIBIR("[4] Mostrar los elementos de la matriz realizando un recorrido en espiral.")
+	ESCRIBIR("[5] Los grupos a los que les tocó una vocal se han ganado un premio. Identificarlos y",
+	"reemplazar las vocales por ‘*'")
 FIN MODULO mostrarOpciones
 
 MODULO leerMatrizCaracter(ENTERO cantFilas, ENTERO cantColumnas) RETORNA CARACTER[][]
