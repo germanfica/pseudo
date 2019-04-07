@@ -2,7 +2,7 @@ ALGORITMO principal() RETORNA Ø
 	(* Cerebro *)
 	TEXTO[] escuelas ← {"Los Patos", "Marabunta", "RRC", "NRC", "ARC"}
 	TEXTO[] categorias ← {"M4", "M6", "M7", "M8", "M10"}
-	ENTERO[][] matrizCantidad ← leerMatrizEntero(longitud(cantEscuelas), longitud(cantCategorias))
+	ENTERO[][] matrizCantidad ← leerMatrizEntero(longitud(escuelas), longitud(categorias))
 	LOGICO salir ← FALSO
 	ENTERO opcion ← -1
 
@@ -23,12 +23,13 @@ ALGORITMO principal() RETORNA Ø
 	FIN MIENTRAS
 FIN ALGORITMO principal
 
-MODULO cantMayorIgualA(ENTERO num, ENTERO[][] numeros) RETORNA Ø
-	ENTERO i, j, contador
+MODULO cantMayorIgualA(ENTERO num, ENTERO[][] matrizNumero) RETORNA Ø
+	ENTERO contador ← 0
+	ENTERO i, j, cantActual
 	
-	PARA i ← 0 HASTA longitud(numeros[0])-1 CON PASO 1 HACER
-		PARA j ← 0 HASTA longitud(numeros)-1 CON PASO 1 HACER
-			cantActual ← cantidadChicos[i][j]
+	PARA i ← 0 HASTA longitud(matrizNumero)-1 CON PASO 1 HACER
+		PARA j ← 0 HASTA longitud(matrizNumero[0])-1 CON PASO 1 HACER
+			cantActual ← matrizNumero[i][j]
 			SI(cantActual >= num) ENTONCES
 				contador ← contador + 1
 			FIN SI
@@ -59,7 +60,7 @@ MODULO leerMatrizEntero(ENTERO cantFilas, ENTERO cantColumnas) RETORNA ENTERO[][
 	RETORNAR matrizEntero
 FIN MODULO leerMatrizEntero
 
-MODULO cantidadAlumnosPorEscuela(ENTERO[][] matrizCantidad) RETORNA ENTERO[]
+MODULO cantidadAlumnosPorEscuela(ENTERO[][] matrizCantidad, String[] escuelas) RETORNA ENTERO[]
 	(* b) Cantidad de alumnos por escuela. ¿Qué porcentaje representa del total? *)
 	ENTERO i, j, cantAlumnos
 	ENTERO[] cantAlumPorEsc ← ENTERO[longitud(escuelas[0])]
@@ -72,25 +73,26 @@ MODULO cantidadAlumnosPorEscuela(ENTERO[][] matrizCantidad) RETORNA ENTERO[]
 		cantAlumPorEsc[i] ← cantAlumnos (* Cantidad de alumnos de una escuela *)
 	FIN PARA
 	RETORNAR cantAlumPorEsc
-FIN MODULO
+FIN MODULO cantidadAlumnosPorEscuela
 
 MODULO mostrarOpcion1(ENTERO[][] matrizCantidad) RETORNA Ø
 	(* a) Cantidad de grupos de más de 7 niños. ¿Qué porcentaje representa del total de grupos? *)
 	(* Opcion 1 *)
 	ENTERO totalGrupos ← longitud(matrizCantidad[0]) * longitud(matrizCantidad)
 	ENTERO cantGruposCompletos ← cantMayorIgualA(7, matrizCantidad)
-	ENTERO porcentaje ← cantGruposCompletos/totalGrupos (* Promedio de grupos *)
+	ENTERO porcentaje ← (cantGruposCompletos*totalGrupos)/100 (* Promedio de grupos *)
 	
 	ESCRIBIR("La cantidad de grupos que tienen más 7 niños son: ", cantGruposCompletos) (* Con salto *)
 	ESCRIBIR("Y representa el porcentaje: ", porcentaje, "%") (* Con salto *)
 FIN MODULO mostrarOpcion1
 
-MODULO mostrarOpcion2(ENTERO[][] matrizCantidad, ENTERO[] escuelas) RETORNA Ø
+MODULO mostrarOpcion2(ENTERO[][] matrizCantidad, TEXTO[] escuelas) RETORNA Ø
 	(* b) Cantidad de alumnos por escuela. ¿Qué porcentaje representa del total? *)
 	(* Opcion 2 *)
-	ENTERO[] cantAlumnosPorEscuela ← cantidadAlumnosPorEscuela(matrizCantidad)
+	ENTERO[] cantAlumnosPorEscuela ← cantidadAlumnosPorEscuela(matrizCantidad, escuelas)
 	ENTERO totalAlumnos ← 0
-	ENTERO cantAlumnosActual, porcentaje
+	ENTERO cantAlumnosActual, porcentaje, i
+	ENTERO totalEscuelas ← longitud(escuelas)
 	
 	ESCRIBIR("La cantidad de alumnos por escuela es: ")
 	PARA i ← 0 HASTA totalEscuelas-1 CON PASO 1 HACER
@@ -99,9 +101,9 @@ MODULO mostrarOpcion2(ENTERO[][] matrizCantidad, ENTERO[] escuelas) RETORNA Ø
 		totalAlumnos ← totalAlumnos + cantAlumnosPorEscuela[i]
 	FIN PARA
 	
-	porcentaje ← (cantAlumnosPorEscuela/totalEscuelas)*100
+	porcentaje ← (totalAlumnos*totalEscuelas)/100
 	ESCRIBIR("Y representa el porcentaje: ", porcentaje, "%")
-FIN MODULO
+FIN MODULO mostrarOpcion2
 
 MODULO mostrarCatEscGrupInc(ENTERO[][] matrizCantidad, TEXTO[] escuelas, TEXTO[] categorias) RETORNA Ø
 	(* Opcion 3 *)
@@ -134,7 +136,7 @@ FIN MODULO mostrarPromAlumPorCat
 MODULO mostrarGrupMasGrandConCatEsc(ENTERO[][] matrizCantidad, TEXTO[] escuelas, TEXTO[] categorias) RETORNA Ø
 	(* Opcion 5 *)
 	ENTERO i,j
-	ENTERO[][] grupoMasGrande ← ENTERO[3]
+	ENTERO[] grupoMasGrande ← ENTERO[3]
 	grupoMasGrande[0] ← matrizCantidad[0][0] (* almacena la cantidad del grupo más grande *)
 	grupoMasGrande[1] ← 0 (* almacena el i *)
 	grupoMasGrande[2] ← 0 (* almacena el j *)
@@ -152,10 +154,10 @@ MODULO mostrarGrupMasGrandConCatEsc(ENTERO[][] matrizCantidad, TEXTO[] escuelas,
 	ESCRIBIR("Categoria: ", categorias[grupoMasGrande[2]]) (* con salto *)
 FIN MODULO mostrarGrupMasGrandConCatEsc
 
-MODULO mostrarGrupMasPequeConCatEsc(ENTERO[][] matrizCantidad, TEXTO[] escuelas) RETORNA Ø
+MODULO mostrarGrupMasPequeConCatEsc(ENTERO[][] matrizCantidad, TEXTO[] escuelas, TEXTO[] categorias) RETORNA Ø
 	(* Opcion 6 *)
 	ENTERO i,j
-	ENTERO[][] grupoMasPeque ← ENTERO[3]
+	ENTERO[] grupoMasPeque ← ENTERO[3]
 	grupoMasPeque[0] ← matrizCantidad[0][0] (* almacena la cantidad del grupo más grande *)
 	grupoMasPeque[1] ← 0 (* almacena el i *)
 	grupoMasPeque[2] ← 0 (* almacena el j *)
