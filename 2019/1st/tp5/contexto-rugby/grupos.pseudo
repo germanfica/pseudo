@@ -39,6 +39,14 @@ MODULO posicionCategoria(TEXTO[] categorias, TEXTO categoria) RETORNAR ENTERO
 	RETORNA posicion
 FIN MODULO posicionCategoria
 
+(*
+Dada una categoría, y una letra,
+
+indicar si corresponde a alguna escuela.
+
+¿Puede averiguar a qué escuela corresponde con una operación/instrucción
+(esto es sin recorrer el arreglo)?
+*)
 MODULO correspondeEscuela(CARACTER[][] matrizGrupo, TEXTO[] categorias, TEXTO categoria, CARACTER letra) RETORNA LOGICO
 	ENTERO i ← 0
 	ENTERO posCategoria ← posicionCategoria(categorias, categoria)
@@ -62,6 +70,54 @@ MODULO correspondeEscuela(CARACTER[][] matrizGrupo, TEXTO[] categorias, TEXTO ca
 	RETORNA aux
 FIN MODULO
 
+https://www.techiedelight.com/create-spiral-matrix-given-array/
+
+MODULO espiral(CARACTER[] grupos, ENTERO cantFilas, ENTERO cantColumnas) RETORNA CARACTER[][]
+	CARACTER[][] matrizEspiral ← CARACTER[cantFilas][cantColumnas]
+	
+	ENTERO izquierda ← 0
+	ENTERO derecha ← cantColumnas-1
+	
+	ENTERO arriba ← 0
+	ENTERO abajo ← cantFilas-1
+	
+	ENTERO i
+	ENTERO contador ← 0
+	LOGICO salir ← FALSO
+	
+	MIENTRAS(NOT salir) HACER
+		salir ← izquierda > derecha
+		PARA i ← izquierda HASTA derecha CON PASO 1 HACER
+			matrizEspiral[arriba][i] = grupos[contador]
+			contador ← contador + 1
+		FIN PARA
+		arriba ← arriba + 1
+		
+		salir ← arriba > abajo
+		PARA i ← arriba HASTA abajo CON PASO 1 HACER
+			matrizEspiral[i][derecha] = grupos[contador]
+			contador ← contador + 1
+		FIN PARA
+		derecha ← derecha -1
+		
+		salir ← izquierda > derecha
+		PARA i ← derecha HASTA izquierda CON PASO -1 HACER
+			matrizEspiral[abajo][i] = grupos[contador]
+			contador ← contador + 1
+		FIN PARA
+		abajo ← abajo -1
+		
+		salir ← arriba > abajo
+		PARA i ← abajo HASTA arriba CON PASO -1 HACER
+			matrizEspiral[i][izquierda] = grupos[contador]
+			contador ← contador + 1
+		FIN PARA
+		izquierda ← izquierda + 1
+	FIN MIENTRAS
+	
+	RETORNA matrizEspiral
+FIN MODULO 
+
 MODULO mostrarOpciones() RETORNA Ø
 	(* Muestra las las opciones disponibles *)
 	ESCRIBIR("[0] Salir (IMPLEMENTADO)")
@@ -74,13 +130,28 @@ MODULO mostrarOpciones() RETORNA Ø
 	"reemplazar las vocales por ‘*'")
 FIN MODULO mostrarOpciones
 
+(* Generar una cadena con todos los grupos, ordenado por escuela. *)
+MODULO cadenaGrupos() RETORNA CARACTER[]
+	CARACTER[] grupos
+	ENTERO posArr ← 0
+	
+	PARA i ← 0 HASTA cantFilas-1 CON PASO 1 HACER
+		PARA j ← 0 HASTA cantColumnas-1 CON PASO 1 HACER
+			grupos[posArr] ← matrizCaracter[i][j]
+			posArr ← posArr + 1
+		FIN PARA
+	FIN PARA
+	
+	RETORNAR grupos
+FIN MODULO
+
 MODULO leerMatrizCaracter(ENTERO cantFilas, ENTERO cantColumnas) RETORNA CARACTER[][]
 	(* Este devuelve una matriz cargada de caracteres *)
 	CARACTER[][] matrizCaracter ← CARACTER[cantFilas][cantColumnas]
 	CARACTER ch
 	ENTERO i, j
-	PARA i ← 0 HASTA cantFilas-1  HACER
-		PARA j ← 0 HASTA cantColumnas-1 HACER
+	PARA i ← 0 HASTA cantFilas-1 CON PASO 1 HACER
+		PARA j ← 0 HASTA cantColumnas-1 CON PASO 1 HACER
 			LEER(ch)
 			matrizCaracter[i][j] ← ch
 		FIN PARA
