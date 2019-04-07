@@ -22,6 +22,21 @@ ALGORITMO principal() RETORNA Ø
 	FIN MIENTRAS
 FIN ALGORITMO principal
 
+MODULO esVocal() RETORNA LOGICO
+	LOGICO esVocal
+	
+	
+	
+	RETORNA esVocal
+FIN MODULO esVocal
+
+MODULO ganadores(CARACTER[][] matrizGrupo) RETORNA CARACTER[][]
+	CARACTER[][] matrizPremio
+	
+	
+	RETORNA matrizPremio
+FIN MODULO ganadores
+
 MODULO posicionCategoria(TEXTO[] categorias, TEXTO categoria) RETORNAR ENTERO
 	(* Retorna la posición del arreglo de categorias si existe la categoria solicitada *)
 	ENTERO i ← 0
