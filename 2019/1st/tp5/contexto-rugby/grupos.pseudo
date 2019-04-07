@@ -22,17 +22,33 @@ ALGORITMO principal() RETORNA Ø
 	FIN MIENTRAS
 FIN ALGORITMO principal
 
-MODULO esVocal() RETORNA LOGICO
-	LOGICO esVocal
+MODULO esVocal(CARACTER ch) RETORNA LOGICO
+	LOGICO rta (* respuesta *)
 	
+	SEGUN(aMinuscula(ch))
+		'a': rta ← VERDADERO
+		'e': rta ← VERDADERO
+		'i': rta ← VERDADERO
+		'o': rta ← VERDADERO
+		'u': rta ← VERDADERO
+		∀o: rta ← FALSO
+	FIN SEGUN
 	
-	
-	RETORNA esVocal
+	RETORNA rta
 FIN MODULO esVocal
 
 MODULO ganadores(CARACTER[][] matrizGrupo) RETORNA CARACTER[][]
+(* Los grupos a los que les tocó una vocal se han ganado un premio. Identificarlos y
+reemplazar las vocales por ‘*' *)
 	CARACTER[][] matrizPremio
 	
+	PARA i ← 0 HASTA longitud(matrizGrupo) CON PASO 1 HACER
+		PARA j ← 0 HASTA longitud(matrizGrupo[0]) CON PASO 1 HACER
+			SI(esVocal(matrizPremio[i][j])) ENTONCES
+				matrizPremio[i][j] ← '*'
+			FIN SI
+		FIN PARA
+	FIN PARA
 	
 	RETORNA matrizPremio
 FIN MODULO ganadores

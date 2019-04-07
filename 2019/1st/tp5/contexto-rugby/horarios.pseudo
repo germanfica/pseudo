@@ -12,15 +12,19 @@ ALGORITMO principal() RETORNA Ø
 		LEER(opcion)
 		SEGUN (opcion)
 			0: salir ← VERDADERO
-			1: mostrarOpcion1(TEXTO[] escuelas)
-			2: mostrarOpcion2()
-			3: mostrarOpcion3()
-			4: mostrarOpcion4()
-			5: mostrarOpcion5()
+			1: mostrarMatriz(TEXTO[][] matrizHorario)
 			∀o: ESCRIBIR("Opción inválida")
 		FIN SEGUN
 	FIN MIENTRAS
 FIN ALGORITMO principal
+
+MODULO leerMatrizTexto(TEXTO[][] matrizHorario) RETORNA Ø
+	PARA i ← 0 HASTA longitud(matrizHorario)-1  HACER
+		PARA j ← 0 HASTA longitud(matrizHorario[0])-1 HACER
+			ESCRIBIR(matrizTexto[i][j])
+		FIN PARA
+	FIN PARA
+FIN MODULO
 
 MODULO leerMatrizTexto(ENTERO cantFilas, ENTERO cantColumnas) RETORNA TEXTO[][]
 	(* Este devuelve una matriz cargada de caracteres *)
