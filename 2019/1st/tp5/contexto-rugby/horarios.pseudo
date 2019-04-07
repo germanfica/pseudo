@@ -1,7 +1,7 @@
 ALGORITMO principal() RETORNA Ø
 	(* Cerebro *)
 	ENTERO[] horas ← {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}
-	TEXTO[] dias ← {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"}
+	TEXTO[] dias ← {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes"}
 	TEXTO[][] matrizHorario ← leerMatrizTexto(longitud(horas), longitud(dias)) (* Guarda las actividades de una persona *)
 	LOGICO salir ← FALSO
 	ENTERO opcion ← -1
@@ -12,22 +12,57 @@ ALGORITMO principal() RETORNA Ø
 		LEER(opcion)
 		SEGUN (opcion)
 			0: salir ← VERDADERO
-			1: mostrarMatriz(TEXTO[][] matrizHorario)
+			1: mostrarActividad(matrizHorario)
+			2: mostrarMatrizTexto(matrizHorario)
 			∀o: ESCRIBIR("Opción inválida")
 		FIN SEGUN
 	FIN MIENTRAS
 FIN ALGORITMO principal
 
-MODULO leerMatrizTexto(TEXTO[][] matrizHorario) RETORNA Ø
+MODULO mostrarActividad(TEXTO[][] matrizHorario) RETORNA Ø
+	TEXTO dia
+	TEXTO hora
+	
+	LEER(dia)
+	LEER(hora)
+	
+	ESCRIBIR(hayActividad(matrizHorario, dia, hora))
+FIN MODULO mostrarActividad
+
+(* ingresar un dia y hora, y mostrar si hay o no actividad *)
+MODULO hayActividad(TEXTO[][] matrizHorario, TEXTO dia, ENTERO hora) LOGICO
+	LOGICO rta
+	
+	rta ← NOT igualIgnoreMayusculas(matrizHorario[hora][posicionDia(dia)], "x")
+	
+	RETORNA rta
+FIN MODULO hayActividad
+
+MODULO posicionDia(TEXTO dia) RETORNA ENTERO
+	(* Devuelve -1 si no existe la posición *)
+	ENTERO pos
+	SEGUN (aMinusculas(dia))
+		"lunes": pos ← 0
+		"martes": pos ← 1
+		"miércoles": pos ← 2
+		"miercoles": pos ← 2
+		"jueves": pos ← 3
+		"viernes": pos ← 4
+		∀o: pos ← -1
+	FIN SEGUN
+	RETORNA pos
+FIN MODULO 
+
+MODULO mostrarMatrizTexto(TEXTO[][] matrizHorario) RETORNA Ø
 	PARA i ← 0 HASTA longitud(matrizHorario)-1  HACER
 		PARA j ← 0 HASTA longitud(matrizHorario[0])-1 HACER
 			ESCRIBIR(matrizTexto[i][j])
 		FIN PARA
 	FIN PARA
-FIN MODULO
+FIN MODULO mostrarMatrizTexto
 
 MODULO leerMatrizTexto(ENTERO cantFilas, ENTERO cantColumnas) RETORNA TEXTO[][]
-	(* Este devuelve una matriz cargada de caracteres *)
+	(* Este devuelve una matriz cargada de texto *)
 	TEXTO[][] matrizTexto ← TEXTO[cantFilas][cantColumnas]
 	TEXTO tex
 	ENTERO i, j

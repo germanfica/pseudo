@@ -12,7 +12,7 @@ ALGORITMO principal() RETORNA Ø
 		LEER(opcion)
 		SEGUN (opcion)
 			0: salir ← VERDADERO
-			1: mostrarOpcion1(CARACTER[][] matrizGrupo, TEXTO[] escuelas)
+			1: mostrarLetrasEscuela(CARACTER[][] matrizGrupo, TEXTO[] escuelas)
 			2: mostrarOpcion2()
 			3: mostrarOpcion3()
 			4: mostrarOpcion4()
@@ -21,6 +21,13 @@ ALGORITMO principal() RETORNA Ø
 		FIN SEGUN
 	FIN MIENTRAS
 FIN ALGORITMO principal
+
+MODULO mostrarLetrasEscuela(CARACTER[][] matrizGrupo, TEXTO escuela)
+	ENTERO j
+	PARA j ← 0 HASTA cantFilas-1 CON PASO 1 HACER
+		ESCRIBIR(matrizGrupo[posicionEscuela(escuela)][j])
+	FIN PARA
+FIN MODULO mostrarLetrasEscuela
 
 MODULO esVocal(CARACTER ch) RETORNA LOGICO
 	LOGICO rta (* respuesta *)
@@ -40,10 +47,13 @@ FIN MODULO esVocal
 MODULO ganadores(CARACTER[][] matrizGrupo) RETORNA CARACTER[][]
 (* Los grupos a los que les tocó una vocal se han ganado un premio. Identificarlos y
 reemplazar las vocales por ‘*' *)
-	CARACTER[][] matrizPremio
+	ENTERO cantFilas ← longitud(matrizGrupo)
+	ENTERO cantColumnas ← longitud(matrizGrupo[0])
+	CARACTER[][] matrizPremio ← CARACTER[cantFilas][cantColumnas]
 	
-	PARA i ← 0 HASTA longitud(matrizGrupo) CON PASO 1 HACER
-		PARA j ← 0 HASTA longitud(matrizGrupo[0]) CON PASO 1 HACER
+	PARA i ← 0 HASTA cantFilas-1 CON PASO 1 HACER
+		PARA j ← 0 HASTA cantColumnas-1 CON PASO 1 HACER
+			matrizPremio[i][j] ← matrizGrupo[i][j]
 			SI(esVocal(matrizPremio[i][j])) ENTONCES
 				matrizPremio[i][j] ← '*'
 			FIN SI
@@ -52,6 +62,23 @@ reemplazar las vocales por ‘*' *)
 	
 	RETORNA matrizPremio
 FIN MODULO ganadores
+
+MODULO posicionEscuela(TEXTO[] escuelas, TEXTO escuela) RETORNAR ENTERO
+	(* Retorna la posición del arreglo de categorias si existe la categoria solicitada *)
+	ENTERO i ← 0
+	ENTERO posicion ← -1
+	LOGICO salir ← FALSO
+	
+	MIENTRAS( NOT salir AND i <= longitud(escuelas)-1 ) HACER
+		SI(escuela=escuelas[i]) ENTONCES
+			posicion ← i
+			salir ← VERDADERO
+		FIN SI
+		i ← i + 1
+	FIN MIENTRAS
+	(* si no existe retorna -1 *)
+	RETORNA posicion
+FIN MODULO posicionCategoria
 
 MODULO posicionCategoria(TEXTO[] categorias, TEXTO categoria) RETORNAR ENTERO
 	(* Retorna la posición del arreglo de categorias si existe la categoria solicitada *)
@@ -81,24 +108,41 @@ indicar si corresponde a alguna escuela.
 MODULO correspondeEscuela(CARACTER[][] matrizGrupo, TEXTO[] categorias, TEXTO categoria, CARACTER letra) RETORNA LOGICO
 	ENTERO i ← 0
 	ENTERO posCategoria ← posicionCategoria(categorias, categoria)
-	LOGICO aux ← FALSO
+	LOGICO rta ← FALSO
 	LOGICO salir ← FALSO
 	
 	SI(posCategoria = -1) ENTONCES
 		(* No existe la categoría *)
-		aux ← FALSO
+		rta ← FALSO
 	SINO
 		(* Buscar si existe la letra solicitada en la categoría solicitada en la matrizGrupo *)
 		MIENTRAS( NOT salir AND i <= longitud(matrizGrupo)-1 ) HACER
 			SI( letra = matrizGrupo[i][posCategoria] ) ENTONCES
-				aux ← VERDADERO
+				rta ← VERDADERO
 				salir ← VERDADERO
 			FIN SI
 			i ← i + 1
 		FIN MIENTRAS
 	FIN SI
 	
-	RETORNA aux
+	RETORNA rta
+FIN MODULO
+
+(* Generar una cadena con todos los grupos, ordenado por escuela. *)
+MODULO cadenaGrupos(CARACTER[][] matrizGrupo) RETORNA CARACTER[]
+	ENTERO cantFilas ← longitud(matrizGrupo)
+	ENTERO cantColumnas ← longitud(matrizGrupo[0])
+	CARACTER[] grupos ← cantFilas*cantColumnas;
+	ENTERO posArr ← 0
+	
+	PARA i ← 0 HASTA cantFilas-1 CON PASO 1 HACER
+		PARA j ← 0 HASTA cantColumnas-1 CON PASO 1 HACER
+			grupos[posArr] ← matrizGrupo[i][j]
+			posArr ← posArr + 1
+		FIN PARA
+	FIN PARA
+	
+	RETORNAR grupos
 FIN MODULO
 
 https://www.techiedelight.com/create-spiral-matrix-given-array/
@@ -160,21 +204,6 @@ MODULO mostrarOpciones() RETORNA Ø
 	ESCRIBIR("[5] Los grupos a los que les tocó una vocal se han ganado un premio. Identificarlos y",
 	"reemplazar las vocales por ‘*'")
 FIN MODULO mostrarOpciones
-
-(* Generar una cadena con todos los grupos, ordenado por escuela. *)
-MODULO cadenaGrupos() RETORNA CARACTER[]
-	CARACTER[] grupos
-	ENTERO posArr ← 0
-	
-	PARA i ← 0 HASTA cantFilas-1 CON PASO 1 HACER
-		PARA j ← 0 HASTA cantColumnas-1 CON PASO 1 HACER
-			grupos[posArr] ← matrizCaracter[i][j]
-			posArr ← posArr + 1
-		FIN PARA
-	FIN PARA
-	
-	RETORNAR grupos
-FIN MODULO
 
 MODULO leerMatrizCaracter(ENTERO cantFilas, ENTERO cantColumnas) RETORNA CARACTER[][]
 	(* Este devuelve una matriz cargada de caracteres *)
